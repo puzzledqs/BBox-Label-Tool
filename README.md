@@ -7,9 +7,9 @@ Data Organization
 -----------------
 LabelTool  
 |  
-|--main.py  # source code for the tool  
+|--main.py    # source code for the tool  
 |  
-|--Images/  # direcotry containing the images to be labeled  
+|--Images/    # direcotry containing the images to be labeled  
 |  
 |--Labels/  # direcotry for the labeling results  
 |  
