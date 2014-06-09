@@ -4,7 +4,9 @@
 # Author:      Qiushi
 # Created:     06/06/2014
 
-#
+# Note: the code relies on python PIL.
+
+# Learned: tkinter layout management
 #-------------------------------------------------------------------------------
 from __future__ import division
 from Tkinter import *
