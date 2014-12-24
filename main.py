@@ -4,23 +4,20 @@
 # Author:      Qiushi
 # Created:     06/06/2014
 
-# Note: the code relies on python PIL.
-
-# Learned: tkinter layout management
+#
 #-------------------------------------------------------------------------------
 from __future__ import division
 from Tkinter import *
 import tkMessageBox
-from ttk import Style
 from PIL import Image, ImageTk
 import os
 import glob
-
+import random
 
 # colors for the bboxes
 COLORS = ['red', 'blue', 'yellow', 'pink', 'cyan', 'green', 'black']
 # image sizes for the examples
-SIZE = 128, 128
+SIZE = 256, 256
 
 class LabelTool():
     def __init__(self, master):
@@ -42,6 +39,7 @@ class LabelTool():
         self.category = 0
         self.imagename = ''
         self.labelfilename = ''
+        self.tkimg = None
 
         # initialize mouse state
         self.STATE = {}
@@ -52,6 +50,8 @@ class LabelTool():
         self.bboxIdList = []
         self.bboxId = None
         self.bboxList = []
+        self.hl = None
+        self.vl = None
 
         # ----------------- GUI stuff ---------------------
         # dir entry & load
@@ -67,6 +67,9 @@ class LabelTool():
         self.mainPanel.bind("<Button-1>", self.mouseClick)
         self.mainPanel.bind("<Motion>", self.mouseMove)
         self.parent.bind("<Escape>", self.cancelBBox)  # press <Espace> to cancel current bbox
+        self.parent.bind("s", self.cancelBBox)
+        self.parent.bind("a", self.prevImage) # press 'a' to go backforward
+        self.parent.bind("d", self.nextImage) # press 'd' to go forward
         self.mainPanel.grid(row = 1, column = 1, rowspan = 4, sticky = W+N)
 
         # showing bbox info & delete bbox
@@ -119,6 +122,7 @@ class LabelTool():
     def loadDir(self, dbg = False):
         if not dbg:
             s = self.entry.get()
+            self.parent.focus()
             self.category = int(s)
         else:
             s = r'D:\workspace\python\labelGUI'
@@ -126,7 +130,7 @@ class LabelTool():
 ##            tkMessageBox.showerror("Error!", message = "The specified dir doesn't exist!")
 ##            return
         # get image list
-        self.imageDir = r'./Images'
+        self.imageDir = os.path.join(r'./Images', '%03d' %(self.category))
         self.imageList = glob.glob(os.path.join(self.imageDir, '*.JPEG'))
         if len(self.imageList) == 0:
             print 'No .JPEG images found in the specified dir!'
@@ -148,6 +152,7 @@ class LabelTool():
         filelist = glob.glob(os.path.join(self.egDir, '*.JPEG'))
         self.tmp = []
         self.egList = []
+        random.shuffle(filelist)
         for (i, f) in enumerate(filelist):
             if i == 3:
                 break
@@ -156,7 +161,7 @@ class LabelTool():
             new_size = int(r * im.size[0]), int(r * im.size[1])
             self.tmp.append(im.resize(new_size, Image.ANTIALIAS))
             self.egList.append(ImageTk.PhotoImage(self.tmp[-1]))
-            self.egLabels[i].config(image = self.egList[-1], width = 100, height = 100)
+            self.egLabels[i].config(image = self.egList[-1], width = SIZE[0], height = SIZE[1])
 
         self.loadImage()
         print '%d images loaded from %s' %(self.total, s)
@@ -216,6 +221,13 @@ class LabelTool():
 
     def mouseMove(self, event):
         self.disp.config(text = 'x: %d, y: %d' %(event.x, event.y))
+        if self.tkimg:
+            if self.hl:
+                self.mainPanel.delete(self.hl)
+            self.hl = self.mainPanel.create_line(0, event.y, self.tkimg.width(), event.y, width = 2)
+            if self.vl:
+                self.mainPanel.delete(self.vl)
+            self.vl = self.mainPanel.create_line(event.x, 0, event.x, self.tkimg.height(), width = 2)
         if 1 == self.STATE['click']:
             if self.bboxId:
                 self.mainPanel.delete(self.bboxId)
@@ -248,13 +260,13 @@ class LabelTool():
         self.bboxIdList = []
         self.bboxList = []
 
-    def prevImage(self):
+    def prevImage(self, event = None):
         self.saveImage()
         if self.cur > 1:
             self.cur -= 1
             self.loadImage()
 
-    def nextImage(self):
+    def nextImage(self, event = None):
         self.saveImage()
         if self.cur < self.total:
             self.cur += 1

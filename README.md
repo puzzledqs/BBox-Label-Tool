@@ -15,13 +15,18 @@ LabelTool
 |  
 |--Examples/  *# direcotry for the example bboxes*  
 
+Dependency
+----------
+python 2.7 win 32bit
+PIL-1.1.7.win32-py2.7
+
 Startup
 -------
 $ python main.py
 
 Usage
 -----
-1. Input a number (1-200), and click 'Load'. The images along with a few example results will be loaded.
+1. Input a number (e.g, 1, 2, 5...), and click 'Load'. The images along with a few example results will be loaded.
 2. To create a new bounding box, left-click to select the first vertex. Moving the mouse to draw a rectangle, and left-click again to select the second vertex.
   - To cancel the bounding box while drawing, just press <Esc>.
   - To delete a existing bounding box, select it from the listbox, and click 'Delete'.
