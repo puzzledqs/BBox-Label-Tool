@@ -1,3 +1,7 @@
+Forked from [puzzledqs/BBox-Label-Tool](https://github.com/puzzledqs/BBox-Label-Tool)
+
+For porject "Fruit detection via X-ray machine"
+
 BBox-Label-Tool
 ===============
 
