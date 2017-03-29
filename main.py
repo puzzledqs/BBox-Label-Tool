@@ -131,9 +131,12 @@ class LabelTool():
 ##            return
         # get image list
         self.imageDir = os.path.join(r'./Images', '%03d' %(self.category))
-        self.imageList = glob.glob(os.path.join(self.imageDir, '*.JPEG'))
+        #print self.imageDir 
+        #print self.category
+        self.imageList = glob.glob(os.path.join(self.imageDir, '*.JPG'))
+        #print self.imageList
         if len(self.imageList) == 0:
-            print 'No .JPEG images found in the specified dir!'
+            print 'No .JPG images found in the specified dir!'
             return
 
         # default to the 1st image in the collection
@@ -146,10 +149,12 @@ class LabelTool():
             os.mkdir(self.outDir)
 
         # load example bboxes
-        self.egDir = os.path.join(r'./Examples', '%03d' %(self.category))
+        #self.egDir = os.path.join(r'./Examples', '%03d' %(self.category))
+        self.egDir = os.path.join(r'./Examples/fruit_xray')
+        print os.path.exists(self.egDir)
         if not os.path.exists(self.egDir):
             return
-        filelist = glob.glob(os.path.join(self.egDir, '*.JPEG'))
+        filelist = glob.glob(os.path.join(self.egDir, '*.JPG'))
         self.tmp = []
         self.egList = []
         random.shuffle(filelist)
