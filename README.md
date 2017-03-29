@@ -2,6 +2,8 @@ Forked from [puzzledqs/BBox-Label-Tool](https://github.com/puzzledqs/BBox-Label-
 
 For porject "Fruit detection via X-ray machine"
 
+Contact info:jxgu1016@gmail.com
+
 BBox-Label-Tool
 ===============
 
