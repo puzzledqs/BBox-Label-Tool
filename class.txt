@@ -1,4 +1,3 @@
-aircraft carrier
-submarine
-destroyer
-frigate
+dog
+cat
+baby
