@@ -29,6 +29,7 @@ $ python main.py
 
 Usage
 -----
+**0. The current tool requires that the images to be labeled reside in /Images/001, /Images/002, etc. You will need to modify the code if you want to label images elsewhere.**
 1. Input a number (e.g, 1, 2, 5...), and click 'Load'. The images along with a few example results will be loaded.
 2. To create a new bounding box, left-click to select the first vertex. Moving the mouse to draw a rectangle, and left-click again to select the second vertex.
   - To cancel the bounding box while drawing, just press <Esc>.
